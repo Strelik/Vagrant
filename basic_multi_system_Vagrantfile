@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+# Turn off shared folders because I doesn't like them. 
+config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+
+# Begin server1
+config.vm.define "server1" do |server1|
+  server1.vm.box = "CentOS_Minimal7"
+  server1.vm.hostname = "server1"
+
+  server1.vm.provider "virtualbox" do |v|
+  v.name = "Server1_Vagrant_Test"
+  end
+ 
+  server1.vm.provider "virtualbox" do |v|
+  v.customize [ "modifyvm", :id, "--cpus", "2" ]
+  v.customize [ "modifyvm", :id, "--memory", "4096" ]
+  end
+
+  server1.vm.network "private_network", ip: "192.168.205.10"
+  end
+  # End server1
+
+# Begin server2
+config.vm.define "server2" do |server2|
+  server2.vm.box = "CentOS_Minimal7"
+  server2.vm.hostname = "server2"
+
+  server2.vm.provider "virtualbox" do |v|
+  v.name = "server2_Vagrant_Test"
+  end
+ 
+  server2.vm.provider "virtualbox" do |v|
+    v.customize [ "modifyvm", :id, "--cpus", "2" ]
+    v.customize [ "modifyvm", :id, "--memory", "4096" ]
+  end
+
+  server2.vm.network "private_network", ip: "192.168.205.11"
+  end
+  # End server2
+
+end
