@@ -1,0 +1,40 @@
+---
+
+#This is an example of task file that has lots of tasks that you can just include in different playbooks
+
+- name: placeholder foo
+  command: /bin/foo
+
+- name: placeholder bar
+  command: /bin/foo
+
+#ansible also supports passing variables in this structured manner:
+tasks:
+
+  - include: wordpress.yml
+    vars:
+        remote_user: timmy
+        some_list_variable:
+          - alpha
+          - beta
+          - gamma
+
+#You can also tag tasks so you can granularly control which tasks you want to run.
+#This applies to main tasks along with pre and post tasks. 
+
+---
+# file: roles/common/tasks/main.yml
+
+- name: be sure ntp is installed
+  yum: pkg=ntp state=installed
+  tags: ntp
+
+- name: be sure ntp is configured
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+  tags: ntp
+
+- name: be sure ntpd is running and enabled
+  service: name=ntpd state=running enabled=yes
+  tags: ntp
