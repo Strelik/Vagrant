@@ -1,0 +1,6 @@
+---
+
+- name: test ping
+
+  ping:
+

@@ -1,0 +1,2 @@
+monitsrc: monitrc
+monitdest: /etc/monitrc

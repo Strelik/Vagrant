@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
 
 # Give all vms a 1GB of RAM and 2 CPUs.
   config.vm.provider "virtualbox" do |v|
-  v.memory = 1024
+  v.memory = 1048
   v.cpus = 2
   end
 
@@ -25,12 +25,12 @@ Vagrant.configure(2) do |config|
 ###########################################################
 
   config.vm.provision "shell" do |s|
-    s.inline = "yum update -y && yum upgrade -y"
+    s.inline = "yum update -y"
   end 
 
 # Then provision with an Ansible Playbook test.
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/playbook.yml"
+    ansible.playbook = "provisioning/main.yml"
     ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
     ansible.sudo = true
   end

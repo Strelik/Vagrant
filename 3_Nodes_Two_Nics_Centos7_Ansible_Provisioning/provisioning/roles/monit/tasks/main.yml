@@ -1,0 +1,21 @@
+---
+
+#This playbook installs monit and uploads a monitRC file.
+# possibly saved as tasks/foo.yml
+
+- name: ping test
+  ping:
+  
+# Configure EPEL repo for EL7 to download Monit
+- command: rpm -Uvh http://ftp.jaist.ac.jp/pub/Linux/Fedora/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+
+#Check if Monit is installed and if not install it.
+- name: Install Monit
+  yum: name=monit.x86_64 state=latest
+
+#Upload monitrc file with general configurations 
+- name: Upload the monitrc file with general configurations
+  copy: src={{monitsrc}} dest={{monitdest}} owner=root group=root mode=0700
+
+# Start Monit
+- command: monit start all
